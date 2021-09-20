@@ -19,6 +19,7 @@
   "devDependencies": {
     "@parcel/config-default": "^2.0.0-alpha.3",
     "@parcel/transformer-glsl": "^2.0.0-nightly.2048",
+    "@types/three": "^0.131.1",
     "parcel": "next"
   }
 }

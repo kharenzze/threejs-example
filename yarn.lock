@@ -1095,6 +1095,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/three@npm:^0.131.1":
+  version: 0.131.1
+  resolution: "@types/three@npm:0.131.1"
+  checksum: c42b27fe5c28c733f657d0180bb53382ae177865aff82457e4910225814f9c1221238fa319232c2695c8f19a73d217271544d30a4086ce1ee8258bcabc7fb687
+  languageName: node
+  linkType: hard
+
 "abab@npm:^2.0.0":
   version: 2.0.5
   resolution: "abab@npm:2.0.5"
@@ -7214,6 +7221,7 @@ resolve@^1.0.0:
   dependencies:
     "@parcel/config-default": ^2.0.0-alpha.3
     "@parcel/transformer-glsl": ^2.0.0-nightly.2048
+    "@types/three": ^0.131.1
     parcel: next
   languageName: unknown
   linkType: soft
