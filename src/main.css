@@ -1,0 +1,13 @@
+#canvas {
+  display: block;
+  background-color: white;
+}
+
+.container {
+  position: absolute;
+  inset: 0 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+}
