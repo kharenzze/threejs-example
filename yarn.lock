@@ -6845,6 +6845,13 @@ resolve@^1.0.0:
   languageName: node
   linkType: hard
 
+"three@npm:^0.132.2":
+  version: 0.132.2
+  resolution: "three@npm:0.132.2"
+  checksum: ecb9ad178c9c7417147ac2971357e12c1b0a35408012085a71d61b36c54b1e18edb36502e99fe6c8684a4cd7c17a1a941123a6fb54b282f0a164bd974470fda9
+  languageName: node
+  linkType: hard
+
 "through2@npm:^0.6.3":
   version: 0.6.5
   resolution: "through2@npm:0.6.5"
@@ -7223,6 +7230,7 @@ resolve@^1.0.0:
     "@parcel/transformer-glsl": ^2.0.0-nightly.2048
     "@types/three": ^0.131.1
     parcel: next
+    three: ^0.132.2
   languageName: unknown
   linkType: soft
 

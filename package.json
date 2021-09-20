@@ -21,5 +21,8 @@
     "@parcel/transformer-glsl": "^2.0.0-nightly.2048",
     "@types/three": "^0.131.1",
     "parcel": "next"
+  },
+  "dependencies": {
+    "three": "^0.132.2"
   }
 }
