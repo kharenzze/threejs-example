@@ -48,15 +48,8 @@ const scene = new THREE.Scene();
 
 //create a blue LineBasicMaterial
 const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+const geometry = new THREE.SphereGeometry( 15, 32, 16 );
+const sphere = new THREE.Mesh( geometry, material );
 
-const points = [];
-points.push( new THREE.Vector3( - 10, 0, 0 ) );
-points.push( new THREE.Vector3( 0, 10, 0 ) );
-points.push( new THREE.Vector3( 10, 0, 0 ) );
-
-const geometry = new THREE.BufferGeometry().setFromPoints( points );
-
-const line = new THREE.Line( geometry, material );
-
-scene.add( line );
+scene.add( sphere );
 renderer.render( scene, camera );
