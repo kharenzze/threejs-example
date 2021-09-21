@@ -7,8 +7,9 @@ const canvas = document.getElementById('canvas')
 const renderer = new THREE.WebGLRenderer({
   canvas
 })
+renderer.setSize( window.innerWidth, window.innerHeight );
 
-const camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
+const camera = new THREE.PerspectiveCamera( 45, aspect, 1, 500 );
 camera.position.set( 0, 0, 100 );
 camera.lookAt( 0, 0, 0 );
 
