@@ -46,7 +46,6 @@ camera.lookAt( 0, 0, 0 );
 
 const scene = new THREE.Scene();
 
-//create a blue LineBasicMaterial
 const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
 const geometry = new THREE.SphereGeometry( 6, 32, 16 );
 const sphere = new THREE.Mesh( geometry, material );
