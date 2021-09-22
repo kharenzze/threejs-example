@@ -41,7 +41,7 @@ onResize()
 const resizeListener = window.addEventListener('resize', onResize)
 
 const camera = new THREE.PerspectiveCamera( 45, aspect, 1, 500 );
-camera.position.set( 0, 0, 100 );
+camera.position.set( 0, -50, 100 );
 camera.lookAt( 0, 0, 0 );
 
 const scene = new THREE.Scene();
@@ -52,7 +52,7 @@ const HEX = {
 }
 const DIM = 20
 const RADIUS = 1
-const DISTANCE = 6 * RADIUS
+const DISTANCE = 4 * RADIUS
 const START = -(DIM-1) * DISTANCE/ 2
 const spheres = new Array(DIM)
 let x = START
