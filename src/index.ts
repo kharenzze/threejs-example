@@ -46,6 +46,10 @@ camera.lookAt( 0, 0, 0 );
 
 const scene = new THREE.Scene();
 
+const HEX = {
+  SIN60: Math.sin(Math.PI / 3),
+  COS60: Math.cos(Math.PI / 3),
+}
 const n = 3
 const RADIUS = 6
 const DISTANCE = 6 * RADIUS
@@ -56,11 +60,12 @@ for (let i = 0; i < n; i++) {
   spheres[i] = new Array(n)
   let y = START
   for (let j = 0; j < n; j++) {
-    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-    const geometry = new THREE.SphereGeometry( 6, 32, 16 );
+    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } )
+    const geometry = new THREE.SphereGeometry( 6, 32, 16 )
     const sphere = new THREE.Mesh( geometry, material );
+    const offsetY = i % 2 ? DISTANCE * HEX.COS60 : 0
     sphere.position.x = x
-    sphere.position.y = y
+    sphere.position.y = y + offsetY
     spheres[i][j] = sphere
     scene.add(sphere);
     y += DISTANCE
