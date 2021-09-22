@@ -41,7 +41,7 @@ onResize()
 const resizeListener = window.addEventListener('resize', onResize)
 
 const camera = new THREE.PerspectiveCamera( 45, aspect, 1, 500 );
-camera.position.set( 0, -50, 100 );
+camera.position.set( 0, -30, 100 );
 camera.lookAt( 0, 0, 0 );
 
 const scene = new THREE.Scene();
@@ -73,4 +73,14 @@ for (let i = 0; i < DIM; i++) {
   x += DISTANCE
 }
 
-renderer.render( scene, camera );
+const target = spheres[9][9]
+const clock = new THREE.Clock(true)
+
+const animate = function () {
+  requestAnimationFrame( animate );
+  const et = clock.getElapsedTime()
+  target.position.z = 3 * Math.sin(2*et)
+  renderer.render( scene, camera );
+};
+
+animate();
