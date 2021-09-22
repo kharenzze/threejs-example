@@ -46,9 +46,26 @@ camera.lookAt( 0, 0, 0 );
 
 const scene = new THREE.Scene();
 
-const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
-const geometry = new THREE.SphereGeometry( 6, 32, 16 );
-const sphere = new THREE.Mesh( geometry, material );
+const n = 3
+const RADIUS = 6
+const DISTANCE = 6 * RADIUS
+const START = -(n-1) * DISTANCE/ 2
+const spheres = new Array(n)
+let x = START
+for (let i = 0; i < n; i++) {
+  spheres[i] = new Array(n)
+  let y = START
+  for (let j = 0; j < n; j++) {
+    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+    const geometry = new THREE.SphereGeometry( 6, 32, 16 );
+    const sphere = new THREE.Mesh( geometry, material );
+    sphere.position.x = x
+    sphere.position.y = y
+    spheres[i][j] = sphere
+    scene.add(sphere);
+    y += DISTANCE
+  }
+  x += DISTANCE
+}
 
-scene.add( sphere );
 renderer.render( scene, camera );
