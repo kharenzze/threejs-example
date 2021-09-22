@@ -50,18 +50,18 @@ const HEX = {
   SIN60: Math.sin(Math.PI / 3),
   COS60: Math.cos(Math.PI / 3),
 }
-const n = 3
-const RADIUS = 6
+const DIM = 20
+const RADIUS = 1
 const DISTANCE = 6 * RADIUS
-const START = -(n-1) * DISTANCE/ 2
-const spheres = new Array(n)
+const START = -(DIM-1) * DISTANCE/ 2
+const spheres = new Array(DIM)
 let x = START
-for (let i = 0; i < n; i++) {
-  spheres[i] = new Array(n)
+for (let i = 0; i < DIM; i++) {
+  spheres[i] = new Array(DIM)
   let y = START
-  for (let j = 0; j < n; j++) {
+  for (let j = 0; j < DIM; j++) {
     const material = new THREE.LineBasicMaterial( { color: 0x0000ff } )
-    const geometry = new THREE.SphereGeometry( 6, 32, 16 )
+    const geometry = new THREE.SphereGeometry( RADIUS, 32, 16 )
     const sphere = new THREE.Mesh( geometry, material );
     const offsetY = i % 2 ? DISTANCE * HEX.COS60 : 0
     sphere.position.x = x
