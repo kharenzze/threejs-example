@@ -1,5 +1,6 @@
 import './main.css'
 import * as THREE from 'three'
+import { AlwaysDepth } from 'three'
 
 interface SimpleRect {
   height: number
@@ -78,8 +79,12 @@ const target = spheres[9][9]
 const origin = new THREE.Vector2(target.position.x, target.position.y)
 const clock = new THREE.Clock(true)
 
+let pause = false
+
 const animate = function () {
-  requestAnimationFrame( animate );
+  if (!pause) {
+    requestAnimationFrame( animate );
+  }
   const et = clock.getElapsedTime()
   for (let list of spheres) {
       for (let s of list) {
@@ -92,4 +97,17 @@ const animate = function () {
   renderer.render( scene, camera );
 };
 
-animate();
+window.addEventListener('keydown', (evt) => {
+  if (evt.key === ' ') {
+    console.log('haha');
+    pause = !pause
+    if (!pause) {
+      animate();
+      clock.start()
+    } else {
+      clock.stop()
+    }
+  }
+})
+
+animate()
