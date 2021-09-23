@@ -80,12 +80,14 @@ const origin = new THREE.Vector2(target.position.x, target.position.y)
 const clock = new THREE.Clock(true)
 
 let pause = false
+let et = 0
 
 const animate = function () {
   if (!pause) {
     requestAnimationFrame( animate );
   }
-  const et = clock.getElapsedTime()
+  const dt = clock.getDelta()
+  et += dt
   for (let list of spheres) {
       for (let s of list) {
         const posInPlane = new THREE.Vector2(s.position.x, s.position.y)
