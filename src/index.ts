@@ -50,11 +50,12 @@ const HEX = {
   SIN60: Math.sin(Math.PI / 3),
   COS60: Math.cos(Math.PI / 3),
 }
-const DIM = 20
-const RADIUS = 1
+const DIM = 60
+const RADIUS = 0.5
 const DISTANCE = 4 * RADIUS
 const START = -(DIM-1) * DISTANCE/ 2
-const spheres = new Array(DIM)
+type Sphere = THREE.Mesh<THREE.SphereGeometry, THREE.LineBasicMaterial>
+const spheres: Array<Array<Sphere>>  = new Array(DIM)
 let x = START
 for (let i = 0; i < DIM; i++) {
   spheres[i] = new Array(DIM)
@@ -74,11 +75,19 @@ for (let i = 0; i < DIM; i++) {
 }
 
 const target = spheres[9][9]
+const origin = new THREE.Vector2(target.position.x, target.position.y)
 const clock = new THREE.Clock(true)
 
 const animate = function () {
   requestAnimationFrame( animate );
   const et = clock.getElapsedTime()
+  for (let list of spheres) {
+      for (let s of list) {
+        const posInPlane = new THREE.Vector2(s.position.x, s.position.y)
+        const d = posInPlane.distanceTo(origin)
+        s.position.z = 3 * Math.sin(2*et) * Math.cos(d*0.2)
+      }
+  }
   target.position.z = 3 * Math.sin(2*et)
   renderer.render( scene, camera );
 };
