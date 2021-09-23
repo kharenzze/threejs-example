@@ -101,7 +101,6 @@ const animate = function () {
 
 window.addEventListener('keydown', (evt) => {
   if (evt.key === ' ') {
-    console.log('haha');
     pause = !pause
     if (!pause) {
       animate();
