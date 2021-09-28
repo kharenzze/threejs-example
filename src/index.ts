@@ -1,6 +1,13 @@
 import './main.css'
 import * as THREE from 'three'
-import { AlwaysDepth } from 'three'
+
+function clamp(num, min, max) {
+  return num <= min 
+    ? min 
+    : num >= max 
+      ? max 
+      : num
+}
 
 interface SimpleRect {
   height: number
@@ -42,7 +49,7 @@ onResize()
 const resizeListener = window.addEventListener('resize', onResize)
 
 const camera = new THREE.PerspectiveCamera( 45, aspect, 1, 500 );
-camera.position.set( 0, -30, 100 );
+camera.position.set( 0, -40, 110 );
 camera.lookAt( 0, 0, 0 );
 
 const scene = new THREE.Scene();
@@ -81,6 +88,11 @@ const clock = new THREE.Clock(true)
 
 let pause = false
 let et = 0
+const wave = {
+  a: 4,
+  w: 3,
+  v: 10,
+}
 
 const animate = function () {
   if (!pause) {
@@ -92,10 +104,11 @@ const animate = function () {
       for (let s of list) {
         const posInPlane = new THREE.Vector2(s.position.x, s.position.y)
         const d = posInPlane.distanceTo(origin)
-        s.position.z = 3 * Math.sin(2*et) * Math.cos(d*0.2)
+        const lossRatio = 1//0.1 * d
+        s.position.z = wave.a * Math.sin(wave.w * (et - (d / wave.v))) / lossRatio
       }
   }
-  target.position.z = 3 * Math.sin(2*et)
+  target.position.z = wave.a * Math.sin(wave.w*et)
   renderer.render( scene, camera );
 };
 
