@@ -1,12 +1,14 @@
 import './main.css'
 import * as THREE from 'three'
 import { GPUComputationRenderer } from 'gpucomputationrender-three'
+import shader from './wave.frag'
+
 
 function clamp(num, min, max) {
-  return num <= min 
-    ? min 
-    : num >= max 
-      ? max 
+  return num <= min
+    ? min
+    : num >= max
+      ? max
       : num
 }
 
@@ -18,7 +20,7 @@ interface SimpleRect {
 const fits = (ref: SimpleRect, other: SimpleRect): boolean =>
   other.width <= ref.width && other.height <= ref.height
 
-const getViewSimpleRect = ():SimpleRect => ({
+const getViewSimpleRect = (): SimpleRect => ({
   height: window.innerHeight,
   width: window.innerWidth,
 })
@@ -26,7 +28,7 @@ const getViewSimpleRect = ():SimpleRect => ({
 const aspect = 16 / 9
 const canvas = document.getElementById('canvas')
 
-const renderer = new THREE.WebGLRenderer({
+const renderer = new THREE.WebGL1Renderer({
   canvas
 })
 
@@ -49,9 +51,9 @@ onResize()
 
 const resizeListener = window.addEventListener('resize', onResize)
 
-const camera = new THREE.PerspectiveCamera( 45, aspect, 1, 500 );
-camera.position.set( 0, -40, 110 );
-camera.lookAt( 0, 0, 0 );
+const camera = new THREE.PerspectiveCamera(45, aspect, 1, 500);
+camera.position.set(0, -40, 110);
+camera.lookAt(0, 0, 0);
 
 const scene = new THREE.Scene();
 
@@ -62,17 +64,17 @@ const HEX = {
 const DIM = 60
 const RADIUS = 0.5
 const DISTANCE = 4 * RADIUS
-const START = -(DIM-1) * DISTANCE/ 2
+const START = -(DIM - 1) * DISTANCE / 2
 type Sphere = THREE.Mesh<THREE.SphereGeometry, THREE.LineBasicMaterial>
-const spheres: Array<Array<Sphere>>  = new Array(DIM)
+const spheres: Array<Array<Sphere>> = new Array(DIM)
 let x = START
 for (let i = 0; i < DIM; i++) {
   spheres[i] = new Array(DIM)
   let y = START
   for (let j = 0; j < DIM; j++) {
-    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } )
-    const geometry = new THREE.SphereGeometry( RADIUS, 32, 16 )
-    const sphere = new THREE.Mesh( geometry, material );
+    const material = new THREE.LineBasicMaterial({ color: 0x0000ff })
+    const geometry = new THREE.SphereGeometry(RADIUS, 32, 16)
+    const sphere = new THREE.Mesh(geometry, material);
     const offsetY = i % 2 ? DISTANCE * HEX.COS60 : 0
     sphere.position.x = x
     sphere.position.y = y + offsetY
@@ -97,20 +99,20 @@ const wave = {
 
 const animate = function () {
   if (!pause) {
-    requestAnimationFrame( animate );
+    requestAnimationFrame(animate);
   }
   const dt = clock.getDelta()
   et += dt
   for (let list of spheres) {
-      for (let s of list) {
-        const posInPlane = new THREE.Vector2(s.position.x, s.position.y)
-        const d = posInPlane.distanceTo(origin)
-        const lossRatio = 1//0.1 * d
-        s.position.z = wave.a * Math.sin(wave.w * (et - (d / wave.v))) / lossRatio
-      }
+    for (let s of list) {
+      const posInPlane = new THREE.Vector2(s.position.x, s.position.y)
+      const d = posInPlane.distanceTo(origin)
+      const lossRatio = 1//0.1 * d
+      s.position.z = wave.a * Math.sin(wave.w * (et - (d / wave.v))) / lossRatio
+    }
   }
-  target.position.z = wave.a * Math.sin(wave.w*et)
-  renderer.render( scene, camera );
+  target.position.z = wave.a * Math.sin(wave.w * et)
+  renderer.render(scene, camera);
 };
 
 window.addEventListener('keydown', (evt) => {
@@ -127,7 +129,39 @@ window.addEventListener('keydown', (evt) => {
 
 animate()
 
+function fillPositionTexture(texture) {
+  const theArray = texture.image.data;
+  
+  for (let k = 0, kl = theArray.length; k < kl; k += 1) {
+    theArray[k] = 1;
+  }
+}
 
 const WW = 1024
 const gpuCompute = new GPUComputationRenderer(WW, WW, renderer)
-console.log(gpuCompute);
+
+const dtPosition = gpuCompute.createTexture();
+fillPositionTexture(dtPosition)
+const positionVariable = gpuCompute.addVariable('texturePosition', shader, dtPosition);
+gpuCompute.setVariableDependencies(positionVariable, [positionVariable]);
+const error = gpuCompute.init();
+if (error !== null) {
+  console.error(error);
+}
+const gl = renderer.getContext()
+
+gpuCompute.compute();
+
+const t = gpuCompute.getCurrentRenderTarget( positionVariable ).texture;
+const rt =gpuCompute.getCurrentRenderTarget( positionVariable ) 
+
+console.log(t);
+
+const data = new Uint8Array(WW*WW*4)
+//renderer.readRenderTargetPixels(rt, 0,0, WW, WW, data)
+console.log(data[0]);
+console.log(gpuCompute.renderer.getContext().readPixels(0, 0, WW, WW, gl.RGBA, gl.UNSIGNED_BYTE, data));
+console.log(data);
+
+
+
