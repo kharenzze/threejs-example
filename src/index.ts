@@ -1,5 +1,6 @@
 import './main.css'
 import * as THREE from 'three'
+import { GPUComputationRenderer } from 'gpucomputationrender-three'
 
 function clamp(num, min, max) {
   return num <= min 
@@ -125,3 +126,8 @@ window.addEventListener('keydown', (evt) => {
 })
 
 animate()
+
+
+const WW = 1024
+const gpuCompute = new GPUComputationRenderer(WW, WW, renderer)
+console.log(gpuCompute);

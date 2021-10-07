@@ -3315,6 +3315,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gpucomputationrender-three@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "gpucomputationrender-three@npm:2.0.0"
+  peerDependencies:
+    three: ">=0.94.0"
+  checksum: 07fccddcd4266aa423edaa44af695598de64e3ca2af33e157701c63c02bb8b404e433f0426a2caf1dc507783bc555d25e9f9aca74cf017a3e312efd8d87433af
+  languageName: node
+  linkType: hard
+
 "graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6":
   version: 4.2.8
   resolution: "graceful-fs@npm:4.2.8"
@@ -7229,6 +7238,7 @@ resolve@^1.0.0:
     "@parcel/config-default": ^2.0.0-alpha.3
     "@parcel/transformer-glsl": ^2.0.0-nightly.2048
     "@types/three": ^0.131.1
+    gpucomputationrender-three: ^2.0.0
     parcel: next
     three: ^0.132.2
   languageName: unknown

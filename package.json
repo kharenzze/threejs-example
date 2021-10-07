@@ -23,6 +23,7 @@
     "parcel": "next"
   },
   "dependencies": {
+    "gpucomputationrender-three": "^2.0.0",
     "three": "^0.132.2"
   }
 }
