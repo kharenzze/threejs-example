@@ -87,13 +87,19 @@ void main() {
     gl.texImage2D(
         gl.TEXTURE_2D,
         0,                // mip level
-        gl.R8,            // internal format
+        gl.RGBA,            // internal format
         srcWidth,
         srcHeight,
         0,                // border
-        gl.RED,           // format
+        gl.RGBA,           // format
         gl.UNSIGNED_BYTE, // type
         new Uint8Array([
+            1, 2, 3,
+            4, 5, 6,
+            1, 2, 3,
+            4, 5, 6,
+            1, 2, 3,
+            4, 5, 6,
             1, 2, 3,
             4, 5, 6,
         ]));
