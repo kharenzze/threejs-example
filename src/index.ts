@@ -127,4 +127,4 @@ window.addEventListener('keydown', (evt) => {
 
 animate()
 
-init()
+init(DIM, DIM)

@@ -1,4 +1,4 @@
-export const init = () => {
+export const init = (HEIGHT, WIDTH) => {
 
     function createShader(gl, program, source, type) {
         const shader = gl.createShader(type);
@@ -32,17 +32,13 @@ out vec4 outColor;
 void main() {
   ivec2 texelCoord = ivec2(gl_FragCoord.xy);
   vec4 value = texelFetch(srcTex, texelCoord, 0);  // 0 = mip level 0
-  outColor = value * 2.0;
+  outColor = value * 1.0;
 }
 `;
 
-    const dstWidth = 3;
-    const dstHeight = 2;
-
-    // make a 3x2 canvas for 6 results
     const canvas = document.createElement('canvas');
-    canvas.width = dstWidth;
-    canvas.height = dstHeight;
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
 
     const gl = canvas.getContext('webgl2');
 
@@ -78,23 +74,30 @@ void main() {
         0,         // offset
     );
 
+    const initData = () => {
+        const l = WIDTH * HEIGHT * 4
+        const data = new Uint8Array(l)
+        for (let i = 0; i < l; i = i + 4) {
+            const p = i / 4
+            data[i] = 0
+            data[i+1] = 0
+            data[i+2] = p % WIDTH
+            data[i+3] = p / WIDTH
+        }
+        return data
+    }
     // create our source texture
-    const srcWidth = 3;
-    const srcHeight = 2;
     const tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, tex);
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); // see https://webglfundamentals.org/webgl/lessons/webgl-data-textures.html
-    const l = srcHeight * srcWidth * 4
-    const data = new Uint8Array(l)
-    for (let i = 0; i < l; i++) {
-        data[i] = Math.random() * 3
-    }
+    const data = initData()
+    console.log(data);
     gl.texImage2D(
         gl.TEXTURE_2D,
         0,                // mip level
         gl.RGBA,            // internal format
-        srcWidth,
-        srcHeight,
+        WIDTH,
+        HEIGHT ,
         0,                // border
         gl.RGBA,           // format
         gl.UNSIGNED_BYTE, // type
@@ -111,8 +114,8 @@ void main() {
     gl.drawArrays(gl.TRIANGLES, 0, 6);  // draw 2 triangles (6 vertices)
 
     // get the result
-    const results = new Uint8Array(dstWidth * dstHeight * 4);
-    gl.readPixels(0, 0, dstWidth, dstHeight, gl.RGBA, gl.UNSIGNED_BYTE, results);
+    const results = new Uint8Array(WIDTH * HEIGHT * 4);
+    gl.readPixels(0, 0, WIDTH, HEIGHT, gl.RGBA, gl.UNSIGNED_BYTE, results);
     console.log(results)
 
 }
