@@ -84,6 +84,11 @@ void main() {
     const tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, tex);
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1); // see https://webglfundamentals.org/webgl/lessons/webgl-data-textures.html
+    const l = srcHeight * srcWidth * 4
+    const data = new Uint8Array(l)
+    for (let i = 0; i < l; i++) {
+        data[i] = Math.random() * 3
+    }
     gl.texImage2D(
         gl.TEXTURE_2D,
         0,                // mip level
@@ -93,16 +98,8 @@ void main() {
         0,                // border
         gl.RGBA,           // format
         gl.UNSIGNED_BYTE, // type
-        new Uint8Array([
-            1, 2, 3,
-            4, 5, 6,
-            1, 2, 3,
-            4, 5, 6,
-            1, 2, 3,
-            4, 5, 6,
-            1, 2, 3,
-            4, 5, 6,
-        ]));
+        data,
+    )
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
