@@ -1,8 +1,6 @@
 import './main.css'
 import * as THREE from 'three'
-import { GPUComputationRenderer } from 'gpucomputationrender-three'
-import shader from './wave.frag'
-
+import { init } from './gpurender'
 
 function clamp(num, min, max) {
   return num <= min
@@ -129,39 +127,4 @@ window.addEventListener('keydown', (evt) => {
 
 animate()
 
-function fillPositionTexture(texture) {
-  const theArray = texture.image.data;
-  
-  for (let k = 0, kl = theArray.length; k < kl; k += 1) {
-    theArray[k] = 1;
-  }
-}
-
-const WW = 1024
-const gpuCompute = new GPUComputationRenderer(WW, WW, renderer)
-
-const dtPosition = gpuCompute.createTexture();
-fillPositionTexture(dtPosition)
-const positionVariable = gpuCompute.addVariable('texturePosition', shader, dtPosition);
-gpuCompute.setVariableDependencies(positionVariable, [positionVariable]);
-const error = gpuCompute.init();
-if (error !== null) {
-  console.error(error);
-}
-const gl = renderer.getContext()
-
-gpuCompute.compute();
-
-const t = gpuCompute.getCurrentRenderTarget( positionVariable ).texture;
-const rt =gpuCompute.getCurrentRenderTarget( positionVariable ) 
-
-console.log(t);
-
-const data = new Uint8Array(WW*WW*4)
-//renderer.readRenderTargetPixels(rt, 0,0, WW, WW, data)
-console.log(data[0]);
-console.log(gpuCompute.renderer.getContext().readPixels(0, 0, WW, WW, gl.RGBA, gl.UNSIGNED_BYTE, data));
-console.log(data);
-
-
-
+init()
