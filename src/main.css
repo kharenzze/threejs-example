@@ -11,3 +11,10 @@
   justify-content: center;
   background-color: black;
 }
+
+#fps-counter {
+  color: aliceblue;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
