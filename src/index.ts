@@ -1,6 +1,7 @@
 import './main.css'
 import * as THREE from 'three'
 import { init } from './gpurender'
+import { Euler, Quaternion, Vector3 } from 'three'
 
 function clamp(num, min, max) {
   return num <= min
@@ -127,6 +128,26 @@ window.addEventListener('keydown', (evt) => {
     } else {
       clock.stop()
     }
+  }
+})
+
+const ZERO = new Vector3(0, 0, 0)
+const Y_AXIS = new Vector3(1, 0, 0)
+const X_AXIS = new Vector3(0, 1, 0)
+window.addEventListener('mousemove', (evt) => {
+  if (evt.buttons === 1) {
+    const R = 0.005
+    const y = evt.movementY * R
+    const x = evt.movementX * R
+    const q = new Quaternion()
+    q.setFromEuler(new Euler(-y, x, 0))
+    camera.position.applyQuaternion(q)
+    
+    //camera.position.applyAxisAngle(Y_AXIS, y)
+    //const x = evt.movementX * R
+    //camera.position.applyQuaternion(new Quaternion(1, 0, 0, 1))
+    //camera.position.applyAxisAngle(X_AXIS, x)
+    camera.lookAt(ZERO)
   }
 })
 
