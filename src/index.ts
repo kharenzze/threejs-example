@@ -90,16 +90,20 @@ const clock = new THREE.Clock(true)
 let pause = false
 let et = 0
 const wave = {
-  a: 4,
+  a: 8,
   w: 3,
   v: 10,
 }
+
+const fpsCounter = document.getElementById('fps-counter')
 
 const animate = function () {
   if (!pause) {
     requestAnimationFrame(animate);
   }
   const dt = clock.getDelta()
+  const fps = Math.floor(1/dt)
+  
   et += dt
   for (let list of spheres) {
     for (let s of list) {
@@ -111,6 +115,7 @@ const animate = function () {
   }
   target.position.z = wave.a * Math.sin(wave.w * et)
   renderer.render(scene, camera);
+  fpsCounter.innerHTML = fps + ''
 };
 
 window.addEventListener('keydown', (evt) => {
